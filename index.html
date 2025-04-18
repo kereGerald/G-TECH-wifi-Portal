@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-Tech Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --border-radius: 10px;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--warning-color));
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            margin: 25px 0 15px;
+            font-size: 1.5em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        h3 {
+            margin: 15px 0 10px;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+        }
+        
+        .auth-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .auth-tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+            flex: 1;
+            transition: var(--transition);
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .auth-tab:hover {
+            color: var(--primary-color);
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .auth-tab.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .connect-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .connect-section.active {
+            display: block;
+        }
+        
+        .voucher-code {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e0f0ff 100%);
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--accent-color);
+            color: var(--primary-color);
+            letter-spacing: 2px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+        
+        .note-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
+            padding: 20px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .note-box::before {
+            content: '!';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: #ffc107;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            margin-top: 25px;
+            font-weight: 600;
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--success-color);
+        }
+        
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .plan-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+        
+        .plan-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plan-info i {
+            color: var(--accent-color);
+            font-size: 1.2em;
+        }
+        
+        .plan-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+            position: relative;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6c757d;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--warning-color);
+            transform: rotate(90deg);
+        }
+        
+        .payment-options {
+            margin: 25px 0;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .payment-option:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background-color: #f8f9fe;
+        }
+        
+        .payment-option i {
+            margin-right: 15px;
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+        
+        .payment-details {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .plans-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-section {
+                flex-direction: column;
+            }
+            
+            .auth-tab {
+                padding: 15px;
+            }
+            
+            .auth-tab.active::after {
+                width: 100%;
+                height: 3px;
+                left: 0;
+                transform: none;
+                bottom: 0;
+            }
+            
+            .modal-content {
+                padding: 20px 15px;
+            }
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Pulse animation for important elements */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>G-Tech WiFi Portal</h1>
+        <p>G-Tech.spot</p>
+    </header>
+    
+    <div class="auth-section">
+        <div class="auth-tab active" onclick="showSection('connect')">
+            <i class="fas fa-wifi"></i> Connect
+        </div>
+        <div class="auth-tab" onclick="showSection('login')">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </div>
+        <div class="auth-tab" onclick="showSection('register')">
+            <i class="fas fa-user-plus"></i> Register
+        </div>
+    </div>
+    
+    <!-- Connect Section -->
+    <section id="connect-section" class="connect-section active">
+        <h2>Connect to Network</h2>
+        
+        <h3>Voucher or MPESA Message</h3>
+        <div class="voucher-code pulse">NE5SKCP</div>
+        
+        <input type="text" class="input-field" id="voucher-input" placeholder="Enter voucher code or paste MPESA message">
+        
+        <button class="btn" onclick="validateVoucher()">
+            <i class="fas fa-plug"></i> Connect
+        </button>
+        
+        <div class="note-box">
+            "I have purchased WiFi but haven't received my voucher?"<br>
+            USE MPESA MESSAGE TO CONNECT<br>
+            (Copy the whole MPESA message and paste above)
+        </div>
+        
+        <div class="contact-info">
+            <i class="fas fa-headset"></i> For Assistance:<br>
+            📞 0799573979 | 0100269249
+        </div>
+    </section>
+    
+    <!-- Purchase Options Section -->
+    <section>
+        <h2>Purchase Options</h2>
+        
+        <div class="plans-container">
+            <!-- Hourly Plans -->
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-clock"></i>
+                    <span>Unlimited 1hr</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.5.00</span>
+                    <button class="btn" onclick="showPaymentModal('Unlimited 1hr', 5)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-clock"></i>
+                    <span>Unlimited 3hrs</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.10.00</span>
+                    <button class="btn" onclick="showPaymentModal('Unlimited 3hrs', 10)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Daily Plans -->
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-sun"></i>
+                    <span>12hrs Unlimited</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.20.00</span>
+                    <button class="btn" onclick="showPaymentModal('12hrs Unlimited', 20)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>24hrs Unlimited</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.30.00</span>
+                    <button class="btn" onclick="showPaymentModal('24hrs Unlimited', 30)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Data Bundles -->
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-database"></i>
+                    <span>2GB Unlimited</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.50.00</span>
+                    <button class="btn" onclick="showPaymentModal('2GB Unlimited', 50)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-database"></i>
+                    <span>5GB (1 month)</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.100.00</span>
+                    <button class="btn" onclick="showPaymentModal('5GB (1 month)', 100)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Extended Access -->
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>4 Days Unlimited</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.100.00</span>
+                    <button class="btn" onclick="showPaymentModal('4 Days Unlimited', 100)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Weekly Unlimited</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.150.00</span>
+                    <button class="btn" onclick="showPaymentModal('Weekly Unlimited', 150)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>2 Weeks Unlimited</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.280.00</span>
+                    <button class="btn" onclick="showPaymentModal('2 Weeks Unlimited', 280)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-info">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Monthly High-Speed</span>
+                </div>
+                <div>
+                    <span class="plan-price">Ksh.500.00</span>
+                    <button class="btn" onclick="showPaymentModal('Monthly High-Speed', 500)">
+                        <i class="fas fa-shopping-cart"></i> Buy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <h2 id="modal-plan-name">Purchase Plan</h2>
+            <p id="modal-plan-price" style="color: var(--primary-color); font-weight: 600;">Price: Ksh.0.00</p>
+            
+            <div class="payment-options">
+                <div class="payment-option selected" onclick="selectPaymentOption('mpesa')">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div>
+                        <h3>MPESA</h3>
+                        <p>Pay via MPESA Mobile Money</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="mpesa-payment" class="payment-details">
+                <p>Enter your MPESA phone number:</p>
+                <input type="tel" class="input-field" id="mpesa-phone" placeholder="e.g. 254712345678">
+                <button class="btn" onclick="processMpesaPayment()">
+                    <span id="pay-text">Initiate Payment</span>
+                    <div class="loader" id="pay-loader"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Powered by <strong>G-Tech Solutions Ltd.</strong></p>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentPlan = null;
+        let currentPrice = 0;
+        let selectedPaymentMethod = 'mpesa';
+        
+        // Show/hide sections
+        function showSection(sectionId) {
+            document.querySelectorAll('.connect-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(`${sectionId}-section`).classList.add('active');
+            document.querySelector(`.auth-tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
+        }
+        
+        // Voucher validation
+        function validateVoucher() {
+            const voucherInput = document.getElementById('voucher-input').value;
+            
+            if (!voucherInput) {
+                alert('Please enter a voucher code or MPESA message');
+                return;
+            }
+            
+            // Here you would typically make an API call to validate the voucher
+            // This is just a simulation
+            if (voucherInput.includes('NE5SKCP') || voucherInput.includes('MPESA')) {
+                alert('Connection successful! Enjoy your browsing.');
+            } else {
+                alert('Invalid voucher code. Please check and try again.');
+            }
+        }
+        
+        // Payment modal functions
+        function showPaymentModal(planName, price) {
+            currentPlan = planName;
+            currentPrice = price;
+            
+            document.getElementById('modal-plan-name').textContent = planName;
+            document.getElementById('modal-plan-price').textContent = `Price: Ksh.${price.toFixed(2)}`;
+            
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+        }
+        
+        function selectPaymentOption(method) {
+            selectedPaymentMethod = method;
+            
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('mpesa-payment').style.display = method === 'mpesa' ? 'block' : 'none';
+        }
+        
+        // MPESA payment processing
+        function processMpesaPayment() {
+            const phone = document.getElementById('mpesa-phone').value;
+            const payText = document.getElementById('pay-text');
+            const payLoader = document.getElementById('pay-loader');
+            
+            if (!phone || phone.length < 10) {
+                alert('Please enter a valid MPESA phone number');
+                return;
+            }
+            
+            // Show loading state
+            payText.style.display = 'none';
+            payLoader.style.display = 'block';
+            
+            // Here you would make an API call to initiate MPESA payment
+            // Simulating API call with timeout
+            setTimeout(() => {
+                // Hide loading state
+                payText.style.display = 'inline';
+                payLoader.style.display = 'none';
+                
+                alert(`MPESA payment request sent to ${phone}. Please complete payment on your phone.`);
+                
+                // In a real implementation, you would poll the server to check payment status
+                setTimeout(() => {
+                    alert('Payment received! Your voucher code is: NEWVOUCHER123');
+                    closePaymentModal();
+                }, 3000);
+            }, 1500);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('payment-modal')) {
+                closePaymentModal();
+            }
+        }
+    </script>
+</body>
+</html>
